@@ -28,7 +28,7 @@ To create the database:
 4. Open [supabase-config.js](supabase-config.js) and set `url` and `anonKey` from Supabase **Project Settings > API**.
 5. Upload `supabase-config.js` with the rest of the project and redeploy GitHub Pages.
 
-Once configured, the app reads and writes shared users, inventory, and buddy data and refreshes it every 10 seconds. Without configuration it continues using browser `localStorage`.
+Once configured, the app reads the latest shared users, inventory, and buddy data when the web page loads and writes changes to the database. It does not automatically refresh while the page is open; manually refresh the browser page to load updates made by other users. Without configuration it continues using browser `localStorage`.
 
 The current custom login is a compatibility bridge and stores passwords in the shared JSON state. Do not use real passwords until the login is migrated to Supabase Auth and the permissive compatibility policy is replaced with authenticated row-level security policies.
 
