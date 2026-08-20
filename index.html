@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Human Resources Department</title>
+    <title>Office Inventory Management</title>
     <!-- SheetJS for Excel Import/Export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <!-- Chart.js for Dashboard Graphs -->
@@ -404,7 +404,40 @@
                     </div>
                 </div>
 
-                <a href="#" data-page="test01">🧪 Test 01</a>
+                <div class="nav-group">
+                    <button class="nav-group-btn collapsed" onclick="toggleNavGroup(this)">
+                        <span>👥 Recruitment</span>
+                        <i class="fa-solid fa-chevron-down"></i>
+                    </button>
+                    <div class="nav-submenu hidden" id="recruitment-submenu">
+                        <a href="#" data-page="recruitment-dashboard">📊 Dashboard</a>
+                        <div class="nav-group">
+                            <button class="nav-group-btn collapsed" onclick="toggleNavGroup(this)">
+                                <span>👷 Blue Collar Workers</span>
+                                <i class="fa-solid fa-chevron-down"></i>
+                            </button>
+                            <div class="nav-submenu hidden" id="blue-collar-submenu">
+                                <a href="#" data-page="blue-production">🏭 Production Dep</a>
+                                <a href="#" data-page="blue-finished-good">📦 Finished Good Dep</a>
+                                <a href="#" data-page="blue-administration">🗂️ Administration Dep</a>
+                                <a href="#" data-page="blue-live-sale">🛒 Live Sale Dep</a>
+                                <a href="#" data-page="blue-security">🛡️ Security Dep</a>
+                                <a href="#" data-page="blue-sales-marketing">📣 Sales &amp; Marketing Dep</a>
+                                <a href="#" data-page="blue-transport">🚚 Transport Dep</a>
+                                <a href="#" data-page="blue-maintenance">🔧 Maintenance Dep</a>
+                                <a href="#" data-page="blue-automotive">🚗 Automotive Dep</a>
+                                <a href="#" data-page="blue-buy-back">🔄 Buy Back Dep</a>
+                                <a href="#" data-page="blue-erp-it">💻 ERP &amp; IT Dep</a>
+                            </div>
+                        </div>
+                        <a href="#" data-page="active-vacancies">📋 Active Vacancies</a>
+                        <a href="#" data-page="past-vacancies">📚 Past Vacancies</a>
+                        <a href="#" data-page="time-to-hire">⏱️ Time to Hire</a>
+                        <a href="#" data-page="submit-vacancy">➕ Submit Vacancy</a>
+                        <a href="#" data-page="recruitment-import-export">⇄ Import / Export</a>
+                        <a href="#" data-page="recruitment-delete-data">🗑️ Delete Data</a>
+                    </div>
+                </div>
                 <a href="#" data-page="test02">🧪 Test 02</a>
                 <a href="#" data-page="excel">🛠️ Import / Export</a>
                 <a href="#" data-page="backup">💾 Backup & Restore</a>
@@ -506,12 +539,31 @@
             { id: 'buddy-tiers', name: '🏆 Tier Configuration' },
             { id: 'buddy-sections', name: '🏢 Sections' },
             { id: 'buddy-backup', name: '💾 Buddy Backup' },
-            { id: 'test01', name: '🧪 Test 01' }, { id: 'test02', name: '🧪 Test 02' },
+            { id: 'recruitment-dashboard', name: '📊 Dashboard' },
+            { id: 'blue-collar-workers', name: '👷 Blue Collar Workers' },
+            { id: 'blue-production', name: '🏭 Production Dep' },
+            { id: 'blue-finished-good', name: '📦 Finished Good Dep' },
+            { id: 'blue-administration', name: '🗂️ Administration Dep' },
+            { id: 'blue-live-sale', name: '🛒 Live Sale Dep' },
+            { id: 'blue-security', name: '🛡️ Security Dep' },
+            { id: 'blue-sales-marketing', name: '📣 Sales & Marketing Dep' },
+            { id: 'blue-transport', name: '🚚 Transport Dep' },
+            { id: 'blue-maintenance', name: '🔧 Maintenance Dep' },
+            { id: 'blue-automotive', name: '🚗 Automotive Dep' },
+            { id: 'blue-buy-back', name: '🔄 Buy Back Dep' },
+            { id: 'blue-erp-it', name: '💻 ERP & IT Dep' },
+            { id: 'active-vacancies', name: '📋 Active Vacancies' },
+            { id: 'past-vacancies', name: '📚 Past Vacancies' },
+            { id: 'time-to-hire', name: '⏱️ Time to Hire' },
+            { id: 'submit-vacancy', name: '➕ Submit Vacancy' },
+            { id: 'recruitment-import-export', name: '⇄ Import / Export' },
+            { id: 'recruitment-delete-data', name: '🗑️ Delete Data' },
+            { id: 'test02', name: '🧪 Test 02' },
             { id: 'excel', name: '🛠️ Import / Export' }, { id: 'backup', name: '💾 Backup & Restore' }, { id: 'settings', name: '⚙️ Settings' }
         ];
 
-        const PAGE_GROUPS = { dashboard:'liquor', items:'liquor', stockin:'liquor', stockout:'liquor', history:'liquor', categories:'liquor', suppliers:'liquor', 'buddy-dashboard':'buddy-system', 'buddy-buddies':'buddy-system', 'buddy-details':'buddy-system', 'buddy-employees':'buddy-system', 'buddy-assignments':'buddy-system', 'buddy-rewards':'buddy-system', 'buddy-evaluations':'buddy-system', 'buddy-factors':'buddy-system', 'buddy-tiers':'buddy-system', 'buddy-sections':'buddy-system', 'buddy-backup':'buddy-system' };
-        const MAIN_PERMISSIONS = [{ id:'liquor', name:'🍷 Liquor and Beverages' }, { id:'buddy-system', name:'🤝 Buddy System Reward' }, { id:'test01', name:'🧪 Test 01' }, { id:'test02', name:'🧪 Test 02' }, { id:'excel', name:'🛠️ Import / Export' }, { id:'backup', name:'💾 Backup & Restore' }, { id:'settings', name:'⚙️ Settings' }];
+        const PAGE_GROUPS = { dashboard:'liquor', items:'liquor', stockin:'liquor', stockout:'liquor', history:'liquor', categories:'liquor', suppliers:'liquor', 'buddy-dashboard':'buddy-system', 'buddy-buddies':'buddy-system', 'buddy-details':'buddy-system', 'buddy-employees':'buddy-system', 'buddy-assignments':'buddy-system', 'buddy-rewards':'buddy-system', 'buddy-evaluations':'buddy-system', 'buddy-factors':'buddy-system', 'buddy-tiers':'buddy-system', 'buddy-sections':'buddy-system', 'buddy-backup':'buddy-system', 'recruitment-dashboard':'recruitment', 'blue-collar-workers':'recruitment', 'blue-production':'recruitment', 'blue-finished-good':'recruitment', 'blue-administration':'recruitment', 'blue-live-sale':'recruitment', 'blue-security':'recruitment', 'blue-sales-marketing':'recruitment', 'blue-transport':'recruitment', 'blue-maintenance':'recruitment', 'blue-automotive':'recruitment', 'blue-buy-back':'recruitment', 'blue-erp-it':'recruitment', 'active-vacancies':'recruitment', 'past-vacancies':'recruitment', 'filled-vacancy':'recruitment', 'time-to-hire':'recruitment', 'submit-vacancy':'recruitment', 'recruitment-import-export':'recruitment', 'recruitment-delete-data':'recruitment' };
+        const MAIN_PERMISSIONS = [{ id:'liquor', name:'🍷 Liquor and Beverages' }, { id:'buddy-system', name:'🤝 Buddy System Reward' }, { id:'recruitment', name:'👥 Recruitment' }, { id:'test02', name:'🧪 Test 02' }, { id:'excel', name:'🛠️ Import / Export' }, { id:'backup', name:'💾 Backup & Restore' }, { id:'settings', name:'⚙️ Settings' }];
         function userHasGroupPermission(user, group) { return user.permissions.includes(group) || Object.keys(PAGE_GROUPS).some(page => PAGE_GROUPS[page] === group && user.permissions.includes(page)); }
         function hasPageAccess(page) { if(page === 'welcome' || currentUser.role === 'Administrator' || currentUser.permissions.includes('all')) return true; const group = PAGE_GROUPS[page]; return currentUser.permissions.includes(page) || (group && (currentUser.permissions.includes(group) || Object.keys(PAGE_GROUPS).some(child => PAGE_GROUPS[child] === group && currentUser.permissions.includes(child)))); }
 
@@ -662,11 +714,19 @@
 
         // --- DATA INITIALIZATION & LOCAL STORAGE ---
         const DB_KEY = "office_inventory";
+        const VACANCIES_KEY = "office_recruitment_vacancies";
+        const BLUE_COLLAR_SECTIONS_KEY = "office_blue_collar_sections";
         let appData = loadData();
+        let vacancies = loadVacancies();
+        let blueCollarSections = loadBlueCollarSections();
 
         function getDefaultData() { return { settings: { name: "Liquire and Beverages", address: "", phone: "", email: "", currency: "LKR", symbol: "Rs.", logo: "" }, categories: [], suppliers: [], items: [], history: [] }; }
         function loadData() { const data = localStorage.getItem(DB_KEY); return data ? JSON.parse(data) : getDefaultData(); }
         function saveData() { localStorage.setItem(DB_KEY, JSON.stringify(appData)); syncToCloud(); }
+        function loadVacancies() { const data = localStorage.getItem(VACANCIES_KEY); return data ? JSON.parse(data) : []; }
+        function saveVacancies() { localStorage.setItem(VACANCIES_KEY, JSON.stringify(vacancies)); }
+        function loadBlueCollarSections() { const data = localStorage.getItem(BLUE_COLLAR_SECTIONS_KEY); return data ? JSON.parse(data) : {}; }
+        function saveBlueCollarSections() { localStorage.setItem(BLUE_COLLAR_SECTIONS_KEY, JSON.stringify(blueCollarSections)); }
         function genId() { return Date.now().toString(36) + Math.random().toString(36).substr(2); }
         function formatCurrency(amount) { const sym = appData.settings.symbol || "Rs."; return `${sym} ${parseFloat(amount || 0).toFixed(2)}`; }
 
@@ -716,7 +776,17 @@
             const submenu = btn.nextElementSibling;
             const shouldOpen = submenu.classList.contains('hidden');
             collapseNavGroups();
-            if (shouldOpen) { btn.classList.remove('collapsed'); submenu.classList.remove('hidden'); }
+            if (shouldOpen) {
+                btn.classList.remove('collapsed');
+                submenu.classList.remove('hidden');
+                let parentSubmenu = btn.closest('.nav-submenu');
+                while (parentSubmenu) {
+                    parentSubmenu.classList.remove('hidden');
+                    const parentButton = parentSubmenu.previousElementSibling;
+                    if (parentButton && parentButton.classList.contains('nav-group-btn')) parentButton.classList.remove('collapsed');
+                    parentSubmenu = parentSubmenu.parentElement.closest('.nav-submenu');
+                }
+            }
         }
 
         // --- ROUTING ---
@@ -724,28 +794,34 @@
         let dashboardSummaryData = []; 
 
         function navigate(page) {
-            if (page === 'users' && currentUser.role !== 'Administrator') { showToast('Access Denied: Administrators only', 'error'); return; }
-            if (!hasPageAccess(page) && page !== 'no_access') {
+            const pageId = page.split('?')[0];
+            if (pageId === 'users' && currentUser.role !== 'Administrator') { showToast('Access Denied: Administrators only', 'error'); return; }
+            if (!hasPageAccess(pageId) && pageId !== 'no_access') {
                 showToast('Access Denied: You do not have permission to view this page.', 'error'); return; }
             if (dashboardCharts.catChart || dashboardCharts.itemChart) {
                 if(dashboardCharts.catChart) dashboardCharts.catChart.destroy();
                 if(dashboardCharts.itemChart) dashboardCharts.itemChart.destroy();
             }
+            Object.keys(dashboardCharts).filter(key => key.startsWith('recruitment')).forEach(key => { if (dashboardCharts[key]) dashboardCharts[key].destroy(); delete dashboardCharts[key]; });
             document.querySelectorAll('#nav-menu a').forEach(a => a.classList.remove('active'));
-            const navItem = document.querySelector(`#nav-menu a[data-page="${page}"]`);
+            const navItem = document.querySelector(`#nav-menu a[data-page="${pageId}"]`);
             if(navItem) {
                 navItem.classList.add('active');
                 document.getElementById('page-title').innerText = navItem.innerText.trim();
                 const parentSubmenu = navItem.closest('.nav-submenu');
-                if (parentSubmenu) {
-                    parentSubmenu.classList.remove('hidden');
-                    const groupBtn = parentSubmenu.previousElementSibling;
-                    if (groupBtn && groupBtn.classList.contains('collapsed')) groupBtn.classList.remove('collapsed');
+                let currentSubmenu = parentSubmenu;
+                while (currentSubmenu) {
+                    currentSubmenu.classList.remove('hidden');
+                    const groupBtn = currentSubmenu.previousElementSibling;
+                    if (groupBtn && groupBtn.classList.contains('nav-group-btn')) groupBtn.classList.remove('collapsed');
+                    currentSubmenu = currentSubmenu.parentElement.closest('.nav-submenu');
                 }
-            } else if (page === 'no_access') {
+            } else if (pageId === 'no_access') {
                 document.getElementById('page-title').innerText = 'Access Restricted';
+            } else if (pageId === 'filled-vacancy') {
+                document.getElementById('page-title').innerText = 'Filled Vacancy';
             }
-            renderPage(page);
+            renderPage(pageId);
         }
 
         document.querySelectorAll('#nav-menu a').forEach(a => {
@@ -778,7 +854,26 @@
                 case 'buddy-tiers': renderBuddyPage(c, 'tiers'); break;
                 case 'buddy-sections': renderBuddyPage(c, 'sections'); break;
                 case 'buddy-backup': renderBuddyPage(c, 'backup'); break;
-                case 'test01': renderPlaceholder(c, 'Test 01'); break;
+                case 'recruitment-dashboard': renderRecruitmentDashboard(c); break;
+                case 'blue-collar-workers': renderPlaceholder(c, 'Blue Collar Workers'); break;
+                case 'blue-production': renderBlueCollarDepartment(c, 'Production Dep'); break;
+                case 'blue-finished-good': renderBlueCollarDepartment(c, 'Finished Good Dep'); break;
+                case 'blue-administration': renderBlueCollarDepartment(c, 'Administration Dep'); break;
+                case 'blue-live-sale': renderBlueCollarDepartment(c, 'Live Sale Dep'); break;
+                case 'blue-security': renderBlueCollarDepartment(c, 'Security Dep'); break;
+                case 'blue-sales-marketing': renderBlueCollarDepartment(c, 'Sales & Marketing Dep'); break;
+                case 'blue-transport': renderBlueCollarDepartment(c, 'Transport Dep'); break;
+                case 'blue-maintenance': renderBlueCollarDepartment(c, 'Maintenance Dep'); break;
+                case 'blue-automotive': renderBlueCollarDepartment(c, 'Automotive Dep'); break;
+                case 'blue-buy-back': renderBlueCollarDepartment(c, 'Buy Back Dep'); break;
+                case 'blue-erp-it': renderBlueCollarDepartment(c, 'ERP & IT Dep'); break;
+                case 'active-vacancies': renderActiveVacancies(c); break;
+                case 'past-vacancies': renderPastVacancies(c); break;
+                case 'filled-vacancy': renderFilledVacancy(c, new URLSearchParams(window.location.hash.split('?')[1] || '').get('number')); break;
+                case 'time-to-hire': renderTimeToHire(c); break;
+                case 'submit-vacancy': renderSubmitVacancy(c); break;
+                case 'recruitment-import-export': renderRecruitmentImportExport(c); break;
+                case 'recruitment-delete-data': renderRecruitmentDeleteData(c); break;
                 case 'test02': renderPlaceholder(c, 'Test 02'); break;
                 case 'excel': renderExcel(c); break;
                 case 'backup': renderBackup(c); break;
@@ -789,6 +884,332 @@
         }
 
         function renderPlaceholder(container, title) { container.innerHTML = `<div class="card"><h2 style="color: var(--primary); margin-bottom: 15px;">${title}</h2><p style="color: var(--text-light); font-size: 16px;">This is a placeholder page for ${title}. Content will be added soon.</p></div>`; }
+
+        function renderBlueCollarDepartment(container, department) {
+            const sections = blueCollarSections[department] || [];
+            const rows = sections.map((section, index) => `<tr><td>${section.number}</td><td>${section.name}</td><td>${section.approved}</td><td>${section.existing}</td><td>${section.vacancies}</td><td><button class="btn btn-secondary btn-sm" onclick="showCreateSectionForm('${department.replace(/'/g, "\\'")}', ${index})">✏️ Edit</button>${currentUser.role === 'Administrator' ? ` <button class="btn btn-danger btn-sm" onclick="deleteBlueCollarSection('${department.replace(/'/g, "\\'")}', ${index})">🗑️ Delete</button>` : ''}</td></tr>`).join('');
+            container.innerHTML = `<div class="card" style="max-width:1180px; margin:0 auto;"><div style="display:flex; justify-content:space-between; align-items:center; gap:15px; margin-bottom:20px; flex-wrap:wrap;"><h2 style="color:var(--primary); margin:0;">${department}</h2><button class="btn btn-primary" onclick="showCreateSectionForm('${department.replace(/'/g, "\\'")}')">➕ Create Section</button></div><div id="create-section-form" style="display:none; margin-bottom:20px;"></div><div class="table-container"><table><thead><tr><th>Section Number</th><th>Section</th><th>Approved Cadre</th><th>Existing Cadre</th><th>vacancies</th><th>Action</th></tr></thead><tbody>${rows || '<tr><td colspan="6" style="text-align:center; color:var(--text-light);">No cadre data available for ' + department + '.</td></tr>'}</tbody></table></div></div>`;
+        }
+
+        function getBlueCollarVacancyRows() {
+            return Object.entries(blueCollarSections).flatMap(([department, sections]) => (sections || []).filter(section => Number(section.vacancies) > 0).map(section => ({ department, ...section })));
+        }
+
+        function deleteBlueCollarSection(department, sectionIndex) {
+            if (currentUser.role !== 'Administrator') return showToast('Only Administrators can delete sections', 'error');
+            if (!confirm('Delete this section? This cannot be undone.')) return;
+            if (!blueCollarSections[department] || !blueCollarSections[department][sectionIndex]) return showToast('Section not found', 'error');
+            blueCollarSections[department].splice(sectionIndex, 1);
+            saveBlueCollarSections();
+            showToast('Section deleted successfully', 'success');
+            renderBlueCollarDepartment(document.getElementById('content'), department);
+        }
+
+        function showCreateSectionForm(department, editIndex = null) {
+            const formContainer = document.getElementById('create-section-form');
+            const section = editIndex === null ? {} : (blueCollarSections[department] || [])[editIndex];
+            if (editIndex !== null && !section) return;
+            const approvedCadreLocked = editIndex !== null && currentUser.role !== 'Administrator';
+            const existingCadreIncreaseOnly = editIndex !== null && currentUser.role !== 'Administrator';
+            formContainer.style.display = 'block';
+            formContainer.innerHTML = `<form onsubmit="createBlueCollarSection(event, '${department.replace(/'/g, "\\'")}', ${editIndex === null ? 'null' : editIndex})" style="padding:18px; border:1px solid var(--border); border-radius:8px; background:var(--bg);"><h3 style="color:var(--primary); margin:0 0 15px;">${editIndex === null ? 'Create Section' : 'Edit Section'}</h3><div class="grid-2"><div class="form-group"><label for="section-number">Section Number</label><input id="section-number" value="${section.number || ''}" required></div><div class="form-group"><label for="section-name">Section</label><input id="section-name" value="${section.name || ''}" required></div><div class="form-group"><label for="approved-cadre">Approved Cadre${approvedCadreLocked ? ' (Administrator only)' : ''}</label><input id="approved-cadre" type="number" min="0" value="${section.approved ?? ''}" ${approvedCadreLocked ? 'readonly' : ''} required></div><div class="form-group"><label for="existing-cadre">Existing Cadre${existingCadreIncreaseOnly ? ' (Increase only)' : ''}</label><input id="existing-cadre" type="number" min="${existingCadreIncreaseOnly ? section.existing : 0}" value="${section.existing ?? ''}" required></div></div><button type="submit" class="btn btn-primary">${editIndex === null ? 'Save Section' : 'Update Section'}</button></form>`;
+        }
+
+        function createBlueCollarSection(event, department, editIndex = null) {
+            event.preventDefault();
+            const approved = Number(document.getElementById('approved-cadre').value);
+            const existing = Number(document.getElementById('existing-cadre').value);
+            if (editIndex !== null && currentUser.role !== 'Administrator') {
+                const existingSection = (blueCollarSections[department] || [])[editIndex];
+                if (!existingSection) return showToast('Section not found', 'error');
+                if (approved !== Number(existingSection.approved)) return showToast('Only Administrators can edit Approved Cadre', 'error');
+                if (existing < Number(existingSection.existing)) return showToast('Staff users can only increase Existing Cadre', 'error');
+            }
+            if (existing > approved) return showToast('Existing Cadre cannot exceed Approved Cadre', 'error');
+            blueCollarSections[department] = blueCollarSections[department] || [];
+            const section = { number: document.getElementById('section-number').value.trim(), name: document.getElementById('section-name').value.trim(), approved, existing, vacancies: approved - existing };
+            if (editIndex === null) blueCollarSections[department].push(section);
+            else blueCollarSections[department][editIndex] = section;
+            saveBlueCollarSections();
+            showToast(editIndex === null ? 'Section created successfully' : 'Section updated successfully', 'success');
+            renderBlueCollarDepartment(document.getElementById('content'), department);
+        }
+
+        function renderRecruitmentDashboard(container) {
+            Object.keys(dashboardCharts).filter(key => key.startsWith('recruitment')).forEach(key => { if (dashboardCharts[key]) dashboardCharts[key].destroy(); delete dashboardCharts[key]; });
+            const total = vacancies.length;
+            const active = vacancies.filter(vacancy => !vacancy.filledDate);
+            const filled = vacancies.filter(vacancy => vacancy.filledDate);
+            const candidateCount = filled.reduce((totalCandidates, vacancy) => totalCandidates + (vacancy.selectedCandidates || []).length, 0);
+            const totalDays = filled.reduce((totalHiringDays, vacancy) => totalHiringDays + getTimeToHireDays(vacancy.submittedDate, vacancy.filledDate), 0);
+            const averageDays = filled.length ? (totalDays / filled.length).toFixed(1) : '0.0';
+            const urgentOpen = active.filter(vacancy => vacancy.status === 'Urgent').length;
+            const sectionVacancies = getBlueCollarVacancyRows();
+            const sectionVacancyTotal = sectionVacancies.reduce((totalVacancies, section) => totalVacancies + Number(section.vacancies || 0), 0);
+            const sectionDepartmentMap = {};
+            sectionVacancies.forEach(section => { sectionDepartmentMap[section.department] = (sectionDepartmentMap[section.department] || 0) + Number(section.vacancies || 0); });
+            const monthNames = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+            const currentYear = new Date().getFullYear();
+            const monthCounts = monthNames.map((month, index) => filled.filter(vacancy => { const date = getDateParts(vacancy.filledDate); return date.year === currentYear && date.month === index; }).length);
+            const statuses = ['Urgent', 'Normal', 'Low'];
+            const statusCounts = statuses.map(status => vacancies.filter(vacancy => vacancy.status === status).length);
+            const departmentMap = {};
+            vacancies.forEach(vacancy => { departmentMap[vacancy.department] = (departmentMap[vacancy.department] || 0) + 1; });
+            const departments = Object.entries(departmentMap).sort((a, b) => b[1] - a[1]).slice(0, 8);
+            const genderMap = { Any: 0, Male: 0, Female: 0 };
+            vacancies.forEach(vacancy => { genderMap[vacancy.gender] = (genderMap[vacancy.gender] || 0) + Number(vacancy.count || 0); });
+            const recentRows = vacancies.slice().reverse().slice(0, 6).map(vacancy => `<tr><td>${vacancy.number}</td><td>${vacancy.title}</td><td>${vacancy.department}</td><td>${vacancy.filledDate ? 'Filled' : vacancy.status}</td><td>${vacancy.filledDate ? getTimeToHireDays(vacancy.submittedDate, vacancy.filledDate) + ' days' : 'In progress'}</td><td>${(vacancy.selectedCandidates || []).length}</td></tr>`).join('');
+            container.innerHTML = `<div style="max-width:1400px; margin:0 auto;">
+                <div style="display:flex; justify-content:space-between; align-items:flex-end; gap:20px; flex-wrap:wrap; margin-bottom:22px;"><div><p style="margin:0 0 6px; color:var(--primary); font-size:12px; font-weight:800; letter-spacing:1px; text-transform:uppercase;">People Operations</p><h1 style="margin:0; color:var(--text); font-size:30px;">Recruitment Command Center</h1><p style="margin:8px 0 0; color:var(--text-light);">A live view of vacancy demand, hiring velocity, and candidate selection.</p></div><div style="padding:10px 14px; border:1px solid var(--border); border-radius:10px; background:var(--card-bg); color:var(--text-light); font-size:13px;">Updated ${new Date().toLocaleDateString()}</div></div>
+                <div class="grid-4" style="margin-bottom:20px;"><div class="card stat-card primary"><div class="stat-title">Total Vacancies</div><div class="stat-value">${total}</div><div style="color:var(--text-light); font-size:12px; margin-top:6px;">All submitted roles</div></div><div class="card stat-card warning"><div class="stat-title">Active Pipeline</div><div class="stat-value">${active.length}</div><div style="color:var(--text-light); font-size:12px; margin-top:6px;">${urgentOpen} urgent to action</div></div><div class="card stat-card success"><div class="stat-title">Filled Vacancies</div><div class="stat-value">${filled.length}</div><div style="color:var(--text-light); font-size:12px; margin-top:6px;">${candidateCount} selected candidates</div></div><div class="card stat-card danger"><div class="stat-title">Avg. Time to Hire</div><div class="stat-value">${averageDays}<span style="font-size:14px; font-weight:600;"> days</span></div><div style="color:var(--text-light); font-size:12px; margin-top:6px;">Across filled vacancies</div></div><div class="card stat-card warning"><div class="stat-title">Blue Collar Vacancies</div><div class="stat-value">${sectionVacancyTotal}</div><div style="color:var(--text-light); font-size:12px; margin-top:6px;">Across ${Object.keys(sectionDepartmentMap).length} departments</div></div></div>
+                <div class="grid-2"><div class="card"><h3 style="color:var(--primary); margin-bottom:4px;">Hiring Momentum</h3><p style="color:var(--text-light); font-size:12px; margin:0 0 12px;">Filled vacancies by month in ${currentYear}</p><div style="height:280px;"><canvas id="recruitment-month-chart"></canvas></div></div><div class="card"><h3 style="color:var(--primary); margin-bottom:4px;">Vacancy Priority Mix</h3><p style="color:var(--text-light); font-size:12px; margin:0 0 12px;">Current demand by urgency level</p><div style="height:280px;"><canvas id="recruitment-status-chart"></canvas></div></div></div>
+                <div class="grid-2"><div class="card"><h3 style="color:var(--primary); margin-bottom:4px;">Department Workload</h3><p style="color:var(--text-light); font-size:12px; margin:0 0 12px;">Vacancies requested by department</p><div style="height:280px;"><canvas id="recruitment-department-chart"></canvas></div></div><div class="card"><h3 style="color:var(--primary); margin-bottom:4px;">Gender Demand</h3><p style="color:var(--text-light); font-size:12px; margin:0 0 12px;">Requested headcount by required gender</p><div style="height:280px;"><canvas id="recruitment-gender-chart"></canvas></div></div></div>
+                <div class="card"><div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px;"><div><h3 style="color:var(--primary); margin:0 0 4px;">Blue Collar Vacancy Demand</h3><p style="color:var(--text-light); font-size:12px; margin:0;">Open cadre vacancies by department</p></div><span style="font-size:12px; color:var(--text-light);">${sectionVacancyTotal} positions</span></div><div class="table-container"><table><thead><tr><th>Department</th><th>Open Section Vacancies</th></tr></thead><tbody>${Object.entries(sectionDepartmentMap).map(([department, count]) => `<tr><td>${department}</td><td>${count}</td></tr>`).join('') || '<tr><td colspan="2" style="text-align:center; color:var(--text-light);">No section vacancy data yet.</td></tr>'}</tbody></table></div></div><div class="card"><div style="display:flex; justify-content:space-between; align-items:center; gap:12px; margin-bottom:12px;"><div><h3 style="color:var(--primary); margin:0 0 4px;">Recruitment Activity</h3><p style="color:var(--text-light); font-size:12px; margin:0;">Latest vacancies and their current hiring state</p></div><span style="font-size:12px; color:var(--text-light);">${total} records</span></div><div class="table-container"><table><thead><tr><th>Vacancy No</th><th>Title</th><th>Department</th><th>Status</th><th>Time to Hire</th><th>Candidates</th></tr></thead><tbody>${recentRows || '<tr><td colspan="6" style="text-align:center; color:var(--text-light);">No recruitment data yet.</td></tr>'}</tbody></table></div></div>
+            </div>`;
+            const chartDefaults = { responsive: true, maintainAspectRatio: false, plugins: { legend: { labels: { usePointStyle: true, padding: 16 } } } };
+            dashboardCharts.recruitmentMonth = new Chart(document.getElementById('recruitment-month-chart'), { type: 'line', data: { labels: monthNames, datasets: [{ label: 'Filled vacancies', data: monthCounts, borderColor: '#0f766e', backgroundColor: 'rgba(15,118,110,0.12)', fill: true, tension: 0.35, pointRadius: 4, pointBackgroundColor: '#0f766e' }] }, options: { ...chartDefaults, scales: { y: { beginAtZero: true, ticks: { precision: 0 } }, x: { grid: { display: false } } }, plugins: { legend: { display: false } } } });
+            dashboardCharts.recruitmentStatus = new Chart(document.getElementById('recruitment-status-chart'), { type: 'doughnut', data: { labels: statuses, datasets: [{ data: statusCounts, backgroundColor: ['#dc2626', '#0f766e', '#d97706'], borderWidth: 0, hoverOffset: 8 }] }, options: { ...chartDefaults, cutout: '66%' } });
+            dashboardCharts.recruitmentDepartment = new Chart(document.getElementById('recruitment-department-chart'), { type: 'bar', data: { labels: departments.map(item => item[0]), datasets: [{ label: 'Vacancies', data: departments.map(item => item[1]), backgroundColor: '#2563eb', borderRadius: 6, borderSkipped: false }] }, options: { ...chartDefaults, indexAxis: 'y', scales: { x: { beginAtZero: true, ticks: { precision: 0 } }, y: { grid: { display: false } } }, plugins: { legend: { display: false } } } });
+            dashboardCharts.recruitmentGender = new Chart(document.getElementById('recruitment-gender-chart'), { type: 'polarArea', data: { labels: Object.keys(genderMap), datasets: [{ data: Object.values(genderMap), backgroundColor: ['rgba(100,116,139,0.72)', 'rgba(37,99,235,0.72)', 'rgba(219,39,119,0.72)'], borderColor: '#fff', borderWidth: 2 }] }, options: { ...chartDefaults, scales: { r: { beginAtZero: true, ticks: { precision: 0 } } } } });
+        }
+
+        function renderRecruitmentImportExport(container) {
+            container.innerHTML = `<div style="max-width:900px; margin:0 auto;">
+                <div class="card" style="margin-bottom:20px;"><h2 style="color:var(--primary); margin-bottom:10px;">Recruitment Import / Export</h2><p style="color:var(--text-light); margin-bottom:20px;">Export or import all Recruitment vacancy data, including selected candidate details.</p><button class="btn btn-primary" onclick="exportRecruitmentData()">⬇️ Export JSON File</button></div>
+                <div class="card"><h3 style="color:var(--primary); margin-bottom:10px;">Import Recruitment JSON</h3><p style="color:var(--text-light); margin-bottom:15px;">Importing a file replaces the current Recruitment vacancy data.</p><input type="file" id="recruitment-import-file" accept=".json,application/json" style="margin-bottom:15px;"><br><button class="btn btn-success" onclick="importRecruitmentData()">⬆️ Import JSON File</button></div>
+            </div>`;
+        }
+
+        function exportRecruitmentData() {
+            const blob = new Blob([JSON.stringify(vacancies, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `recruitment_vacancies_${new Date().toISOString().slice(0, 10)}.json`;
+            link.click();
+            URL.revokeObjectURL(url);
+            showToast('Recruitment data exported successfully', 'success');
+        }
+
+        function importRecruitmentData() {
+            const file = document.getElementById('recruitment-import-file').files[0];
+            if (!file) return showToast('Please select a JSON file', 'error');
+            const reader = new FileReader();
+            reader.onload = event => {
+                try {
+                    const imported = JSON.parse(event.target.result);
+                    const importedVacancies = Array.isArray(imported) ? imported : imported.vacancies;
+                    if (!Array.isArray(importedVacancies) || importedVacancies.some(vacancy => !vacancy || !vacancy.number || !vacancy.title)) throw new Error('Invalid vacancy data');
+                    vacancies = importedVacancies;
+                    saveVacancies();
+                    showToast('Recruitment data imported successfully', 'success');
+                } catch (error) {
+                    showToast('Invalid Recruitment JSON file', 'error');
+                }
+            };
+            reader.readAsText(file);
+        }
+
+        function renderRecruitmentDeleteData(container) {
+            container.innerHTML = `<div class="card" style="max-width:760px; margin:0 auto;"><h2 style="color:var(--danger); margin-bottom:10px;">Delete Recruitment Data</h2><p style="color:var(--text-light); margin-bottom:20px;">This permanently deletes all submitted and filled vacancies, including selected candidate details. Inventory, Buddy System, and user data will not be affected.</p><button class="btn btn-danger" onclick="deleteAllRecruitmentData()">🗑️ Delete All Recruitment Data</button></div>`;
+        }
+
+        function deleteAllRecruitmentData() {
+            if (!confirm('Delete all Recruitment vacancy and candidate data? This cannot be undone.')) return;
+            vacancies = [];
+            localStorage.removeItem(VACANCIES_KEY);
+            showToast('All Recruitment data deleted', 'success');
+        }
+
+        function getDateParts(value) {
+            const match = String(value || '').match(/^(\d{4})-(\d{2})-(\d{2})/);
+            if (match) return { year: Number(match[1]), month: Number(match[2]) - 1, day: Number(match[3]) };
+            const date = new Date(value);
+            return { year: date.getFullYear(), month: date.getMonth(), day: date.getDate() };
+        }
+
+        function renderTimeToHire(container, selectedYear) {
+            const currentYear = new Date().getFullYear();
+            const availableYears = [...new Set([2026, 2027, 2028, 2029, 2030, currentYear, ...vacancies.flatMap(vacancy => [vacancy.submittedDate, vacancy.filledDate].filter(Boolean).map(date => getDateParts(date).year)).filter(Number.isFinite)])].sort((a, b) => b - a);
+            const year = availableYears.includes(Number(selectedYear)) ? Number(selectedYear) : currentYear;
+            const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+            const rows = monthNames.map((month, monthIndex) => {
+                const monthlyVacancies = vacancies.filter(vacancy => {
+                    if (!vacancy.filledDate) return false;
+                    const filledDate = getDateParts(vacancy.filledDate);
+                    return filledDate.year === year && filledDate.month === monthIndex;
+                });
+                const totalDays = monthlyVacancies.reduce((total, vacancy) => total + getTimeToHireDays(vacancy.submittedDate, vacancy.filledDate), 0);
+                const averageDays = monthlyVacancies.length ? `${(totalDays / monthlyVacancies.length).toFixed(2)} days` : '-';
+                return `<tr><td>${month}</td><td>${monthlyVacancies.length}</td><td>${totalDays}</td><td>${averageDays}</td></tr>`;
+            }).join('');
+            container.innerHTML = `<div class="card" style="max-width: 1000px; margin: 0 auto;">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:15px; margin-bottom:20px; flex-wrap:wrap;"><h2 style="color: var(--primary); margin:0;">Time to Hire (${year})</h2><div class="form-group" style="margin:0; min-width:180px;"><label for="time-to-hire-year">Select Year</label><select id="time-to-hire-year" onchange="renderTimeToHire(document.getElementById('content'), this.value)">${availableYears.map(option => `<option value="${option}" ${option === year ? 'selected' : ''}>${option}</option>`).join('')}</select></div></div>
+                <div class="table-container"><table>
+                    <thead><tr><th>Month</th><th>Filled Vacancy Count</th><th>Total Days</th><th>Time to hire</th></tr></thead>
+                    <tbody>${rows}</tbody>
+                </table></div>
+            </div>`;
+        }
+
+        function renderActiveVacancies(container) {
+            const rows = vacancies.filter(vacancy => !vacancy.filledDate).map(vacancy => `<tr>
+                <td>${vacancy.number}</td><td>${vacancy.title}</td><td>${vacancy.department}</td><td>${vacancy.count}</td>
+                <td>${vacancy.gender}</td><td>${vacancy.status}</td><td>${new Date(vacancy.submittedDate).toLocaleDateString()}</td><td>${calculateTimeToHire(vacancy.submittedDate, vacancy.filledDate)}</td>
+                <td><button class="btn btn-success btn-sm" onclick="openFilledVacancy('${vacancy.number}')">✓ Filled</button></td>
+            </tr>`).join('');
+            container.innerHTML = `<div class="card" style="max-width: 1180px; margin: 0 auto;">
+                <h2 style="color: var(--primary); margin-bottom: 20px;">Active Vacancies</h2>
+                <div class="table-container"><table>
+                    <thead><tr><th>Vacancy No</th><th>Vancy Title</th><th>Department</th><th>No of Vacancies</th><th>Required Gender</th><th>Status</th><th>Vacancy Submitted Date</th><th>Time to Hire</th><th>Action</th></tr></thead>
+                    <tbody>${rows || '<tr><td colspan="9" style="text-align:center; color:var(--text-light);">No vacancies submitted yet.</td></tr>'}</tbody>
+                </table></div>
+                <h3 style="color:var(--primary); margin:30px 0 15px;">Blue Collar Section Vacancies</h3><div class="table-container"><table><thead><tr><th>Department</th><th>Section Number</th><th>Section</th><th>Approved Cadre</th><th>Existing Cadre</th><th>Vacancies</th></tr></thead><tbody>${getBlueCollarVacancyRows().map(section => `<tr><td>${section.department}</td><td>${section.number}</td><td>${section.name}</td><td>${section.approved}</td><td>${section.existing}</td><td><strong>${section.vacancies}</strong></td></tr>`).join('') || '<tr><td colspan="6" style="text-align:center; color:var(--text-light);">No Blue Collar section vacancies.</td></tr>'}</tbody></table></div>
+            </div>`;
+        }
+
+        function renderPastVacancies(container) {
+            const rows = vacancies.filter(vacancy => vacancy.filledDate).map(vacancy => {
+                const candidates = (vacancy.selectedCandidates || []).map(candidate => `<div style="margin-bottom:8px;"><strong>${candidate.name}</strong><br>Address: ${candidate.address}<br>Age: ${candidate.age} | NIC No: ${candidate.nic}<br>Joining Date: ${candidate.joiningDate}<br>Refference: ${candidate.reference || '-'}<br>Remark: ${candidate.remark || '-'}</div>`).join('') || 'No selected candidate details';
+                return `<tr>
+                    <td>${vacancy.number}</td><td>${vacancy.title}</td><td>${vacancy.department}</td><td>${vacancy.count}</td><td>${vacancy.gender}</td><td>${vacancy.status}</td>
+                    <td>${new Date(vacancy.submittedDate).toLocaleDateString()}</td><td>${new Date(vacancy.filledDate).toLocaleDateString()}</td><td>${calculateTimeToHire(vacancy.submittedDate, vacancy.filledDate)}</td><td style="white-space:normal; min-width:260px;">${candidates}</td><td><button class="btn btn-primary btn-sm" onclick="openFilledVacancy('${vacancy.number}')">Details</button></td>
+                </tr>`;
+            }).join('');
+            container.innerHTML = `<div class="card" style="max-width: 1400px; margin: 0 auto;">
+                <h2 style="color: var(--primary); margin-bottom: 20px;">Past Vacancies</h2>
+                <div class="table-container"><table>
+                    <thead><tr><th>Vacancy No</th><th>Vancy Title</th><th>Department</th><th>No of Vacancies</th><th>Required Gender</th><th>Status</th><th>Vacancy Submitted Date</th><th>Filled Date</th><th>Time to Hire</th><th>Selected Candidates Details</th><th>Action</th></tr></thead>
+                    <tbody>${rows || '<tr><td colspan="11" style="text-align:center; color:var(--text-light);">No past vacancies yet.</td></tr>'}</tbody>
+                </table></div>
+            </div>`;
+        }
+
+        function openFilledVacancy(vacancyNumber) {
+            window.location.hash = `filled-vacancy?number=${encodeURIComponent(vacancyNumber)}`;
+            navigate(`filled-vacancy?number=${encodeURIComponent(vacancyNumber)}`);
+        }
+
+        function renderFilledVacancy(container, vacancyNumber) {
+            const vacancy = vacancies.find(item => item.number === vacancyNumber);
+            if (!vacancy) { renderPlaceholder(container, 'Vacancy Not Found'); return; }
+            const selectedCandidates = vacancy.selectedCandidates || [];
+            const candidateRows = selectedCandidates.map(candidate => `<tr><td>${candidate.name}</td><td>${candidate.address}</td><td>${candidate.age}</td><td>${candidate.nic}</td><td>${candidate.joiningDate}</td><td>${candidate.reference}</td><td>${candidate.remark}</td></tr>`).join('');
+            const candidateForm = selectedCandidates.length === 0 ? `<form onsubmit="addSelectedCandidate(event, '${vacancy.number}')">
+                        <div class="grid-2">
+                            <div class="form-group"><label for="candidate-name">Candidate Name</label><input type="text" id="candidate-name" required></div>
+                            <div class="form-group"><label for="candidate-address">Address</label><input type="text" id="candidate-address" required></div>
+                            <div class="form-group"><label for="candidate-age">Age</label><input type="number" id="candidate-age" min="1" required></div>
+                            <div class="form-group"><label for="candidate-nic">NIC No</label><input type="text" id="candidate-nic" required></div>
+                            <div class="form-group"><label for="candidate-joining-date">Joining Date</label><input type="date" id="candidate-joining-date" required></div>
+                            <div class="form-group"><label for="candidate-reference">Refference</label><input type="text" id="candidate-reference"></div>
+                        </div>
+                        <div class="form-group"><label for="candidate-remark">Remark</label><textarea id="candidate-remark"></textarea></div>
+                        <button type="submit" class="btn btn-primary">➕ Add Selected Candidate</button>
+                    </form>` : '';
+            container.innerHTML = `<div style="max-width:1180px; margin:0 auto;">
+                <div class="card" style="margin-bottom:20px;"><h2 style="color:var(--primary); margin-bottom:15px;">${vacancy.number} - ${vacancy.title}</h2>
+                    <div class="form-group" style="max-width:320px;"><label for="filled-date">Filled Date</label><input type="date" id="filled-date" value="${vacancy.filledDate || new Date().toISOString().slice(0, 10)}" onchange="updateFilledDate('${vacancy.number}', this.value)"></div>
+                </div>
+                <div class="card"><h3 style="color:var(--primary); margin-bottom:15px;">Selected Candidate Details</h3>
+                    ${candidateForm}
+                    <div class="table-container" style="margin-top:25px;"><table><thead><tr><th>Candidate Name</th><th>Address</th><th>Age</th><th>NIC No</th><th>Joining Date</th><th>Refference</th><th>Remark</th></tr></thead><tbody>${candidateRows || '<tr><td colspan="7" style="text-align:center; color:var(--text-light);">No selected candidates added yet.</td></tr>'}</tbody></table></div>
+                </div>
+            </div>`;
+        }
+
+        function updateFilledDate(vacancyNumber, filledDate) {
+            const vacancy = vacancies.find(item => item.number === vacancyNumber);
+            if (vacancy) { vacancy.filledDate = filledDate; vacancy.timeToHire = calculateTimeToHire(vacancy.submittedDate, filledDate); saveVacancies(); }
+        }
+
+        function calculateTimeToHire(submittedDate, filledDate) {
+            if (!filledDate) return 'Not Filled';
+            return `${getTimeToHireDays(submittedDate, filledDate)} days`;
+        }
+
+        function getTimeToHireDays(submittedDate, filledDate) {
+            if (!submittedDate || !filledDate) return 0;
+            const submitted = new Date(submittedDate).setHours(0, 0, 0, 0);
+            const filled = new Date(filledDate).setHours(0, 0, 0, 0);
+            return Math.max(0, Math.round((filled - submitted) / 86400000));
+        }
+
+        function addSelectedCandidate(event, vacancyNumber) {
+            event.preventDefault();
+            const vacancy = vacancies.find(item => item.number === vacancyNumber);
+            if (!vacancy) return;
+            vacancy.filledDate = document.getElementById('filled-date').value;
+            vacancy.timeToHire = calculateTimeToHire(vacancy.submittedDate, vacancy.filledDate);
+            vacancy.selectedCandidates = vacancy.selectedCandidates || [];
+            vacancy.selectedCandidates.push({
+                name: document.getElementById('candidate-name').value.trim(),
+                address: document.getElementById('candidate-address').value.trim(),
+                age: document.getElementById('candidate-age').value,
+                nic: document.getElementById('candidate-nic').value.trim(),
+                joiningDate: document.getElementById('candidate-joining-date').value,
+                reference: document.getElementById('candidate-reference').value.trim(),
+                remark: document.getElementById('candidate-remark').value.trim()
+            });
+            saveVacancies();
+            showToast('Selected candidate added successfully', 'success');
+            renderFilledVacancy(document.getElementById('content'), vacancyNumber);
+        }
+
+        function renderSubmitVacancy(container) {
+            container.innerHTML = `<div class="card" style="max-width: 760px; margin: 0 auto;">
+                <h2 style="color: var(--primary); margin-bottom: 20px;">Submit Vacancy</h2>
+                <form id="submit-vacancy-form" onsubmit="submitVacancy(event)">
+                    <div class="form-group">
+                        <label for="vacancy-title">Vacancy Title</label>
+                        <input type="text" id="vacancy-title" required placeholder="Enter vacancy title">
+                    </div>
+                    <div class="form-group">
+                        <label for="vacancy-department">Department</label>
+                        <input type="text" id="vacancy-department" required placeholder="Enter department">
+                    </div>
+                    <div class="form-group">
+                        <label for="vacancy-count">No of Vacancies</label>
+                        <input type="number" id="vacancy-count" min="1" step="1" required placeholder="Enter number of vacancies">
+                    </div>
+                    <div class="form-group">
+                        <label for="vacancy-gender">Required Gender</label>
+                        <select id="vacancy-gender" required>
+                            <option value="Any">Any</option>
+                            <option value="Male">Male</option>
+                            <option value="Female">Female</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="vacancy-status">Status</label>
+                        <select id="vacancy-status" required>
+                            <option value="Urgent">Urgent</option>
+                            <option value="Normal">Normal</option>
+                            <option value="Low">Low</option>
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">➕ Submit Vacancy</button>
+                </form>
+            </div>`;
+        }
+
+        function submitVacancy(event) {
+            event.preventDefault();
+            const nextNumber = vacancies.reduce((highest, vacancy) => Math.max(highest, parseInt(String(vacancy.number).replace(/\D/g, ''), 10) || 0), 0) + 1;
+            vacancies.push({
+                number: `VAC-${String(nextNumber).padStart(4, '0')}`,
+                title: document.getElementById('vacancy-title').value.trim(),
+                department: document.getElementById('vacancy-department').value.trim(),
+                count: document.getElementById('vacancy-count').value,
+                gender: document.getElementById('vacancy-gender').value,
+                status: document.getElementById('vacancy-status').value,
+                submittedDate: new Date().toISOString(),
+                timeToHire: 'Not Filled'
+            });
+            saveVacancies();
+            showToast('Vacancy submitted successfully', 'success');
+            navigate('active-vacancies');
+        }
 
         function formatSessionTime(seconds) {
             const total = Math.max(0, Math.floor(seconds || 0));
@@ -1269,7 +1690,7 @@
                 <div class="form-group">
                     <label>Accessible Pages</label>
                     <div class="checkbox-group">
-                        ${MAIN_PERMISSIONS.map(p => {
+                        ${ASSIGNABLE_PAGES.map(p => {
                             const checked = user?.permissions?.includes('all') || (user && userHasGroupPermission(user, p.id)) ? 'checked' : '';
                             return `<label class="checkbox-item"><input type="checkbox" id="perm-${p.id}" ${checked} ${user?.role === 'Administrator' ? 'disabled' : ''}> ${p.name}</label>`;
                         }).join('')}
@@ -1290,7 +1711,7 @@
         }
 
         function toggleRolePermissions(role) {
-            MAIN_PERMISSIONS.forEach(p => {
+            ASSIGNABLE_PAGES.forEach(p => {
                 const chk = document.getElementById(`perm-${p.id}`);
                 if (chk) { if (role === 'Administrator') { chk.checked = true; chk.disabled = true; } else { chk.disabled = false; } }
             });
@@ -1306,7 +1727,7 @@
             if(!id && users.find(u => u.username.toLowerCase() === username)) return showToast('Username already exists', 'error');
             let permissions = [];
             if (role === 'Administrator') { permissions = ['all']; } 
-            else { MAIN_PERMISSIONS.forEach(p => { if (document.getElementById(`perm-${p.id}`).checked) permissions.push(p.id); }); }
+            else { ASSIGNABLE_PAGES.forEach(p => { if (document.getElementById(`perm-${p.id}`).checked) permissions.push(p.id); }); }
             if(id) {
                 const idx = users.findIndex(u => u.id === id);
                 users[idx].name = name; users[idx].role = role; users[idx].permissions = permissions;
