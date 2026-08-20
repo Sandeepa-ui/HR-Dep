@@ -453,7 +453,6 @@
         const cloudDatabase = supabaseConfig.url && supabaseConfig.anonKey && window.supabase
             ? window.supabase.createClient(supabaseConfig.url, supabaseConfig.anonKey)
             : null;
-        let cloudSyncTimer = null;
         let cloudSyncInProgress = false;
         let currentUser = null;
         let welcomeTimer = null;
@@ -487,12 +486,6 @@
             cloudDatabase.from('shared_app_state').upsert({ id: true, users, inventory: appData, buddy: buddyData, updated_by: currentUser?.id || null, updated_at: new Date().toISOString() })
                 .then(({ error }) => { if (error) throw error; })
                 .catch(error => { console.error('Cloud sync write failed:', error); showToast('Could not save shared data', 'error'); });
-        }
-
-        function startCloudSync() {
-            if (!cloudDatabase || cloudSyncTimer) return;
-            syncFromCloud(true);
-            cloudSyncTimer = setInterval(() => syncFromCloud(false), 10000);
         }
 
         const ASSIGNABLE_PAGES = [
@@ -3023,7 +3016,7 @@
 
         // --- INITIALIZATION ---
         applyBranding();
-        startCloudSync();
+        syncFromCloud(true);
         if (checkSession()) {
             showApp();
         } else {
