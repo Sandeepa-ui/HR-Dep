@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Human Resources Department</title>
+    <title>Office Inventory Management</title>
     <!-- SheetJS for Excel Import/Export -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
     <!-- Chart.js for Dashboard Graphs -->
@@ -158,6 +158,15 @@
         .checkbox-group { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 5px; background: var(--bg); padding: 15px; border-radius: 8px; border: 1px solid var(--border); }
         .checkbox-item { display: flex; align-items: center; gap: 8px; font-size: 14px; color: var(--text); }
         .checkbox-item input { width: 16px; height: 16px; cursor: pointer; accent-color: var(--primary); }
+        .permission-page { display: none; }
+        .permission-page.active { display: block; }
+        .permission-page-label { font-size: 12px; color: var(--text-light); margin-bottom: 10px; }
+        .permission-page-nav { display: flex; justify-content: space-between; gap: 10px; margin-top: 12px; }
+        .permission-page-nav .btn { flex: 1; justify-content: center; }
+        .permission-main-list { grid-template-columns: 1fr; }
+        .permission-main-item { justify-content: space-between; }
+        .permission-main-item span { display: flex; align-items: center; gap: 8px; }
+        .permission-main-item button { padding: 4px 8px; font-size: 11px; }
 
         /* Buttons */
         .btn { padding: 8px 15px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 600; transition: 0.2s; display: inline-flex; align-items: center; gap: 5px; box-shadow: 0 2px 4px rgba(0,0,0,0.05); }
@@ -564,6 +573,7 @@
 
         const PAGE_GROUPS = { dashboard:'liquor', items:'liquor', stockin:'liquor', stockout:'liquor', history:'liquor', categories:'liquor', suppliers:'liquor', 'buddy-dashboard':'buddy-system', 'buddy-buddies':'buddy-system', 'buddy-details':'buddy-system', 'buddy-employees':'buddy-system', 'buddy-assignments':'buddy-system', 'buddy-rewards':'buddy-system', 'buddy-evaluations':'buddy-system', 'buddy-factors':'buddy-system', 'buddy-tiers':'buddy-system', 'buddy-sections':'buddy-system', 'buddy-backup':'buddy-system', 'recruitment-dashboard':'recruitment', 'blue-collar-workers':'recruitment', 'blue-production':'recruitment', 'blue-finished-good':'recruitment', 'blue-administration':'recruitment', 'blue-live-sale':'recruitment', 'blue-security':'recruitment', 'blue-sales-marketing':'recruitment', 'blue-transport':'recruitment', 'blue-maintenance':'recruitment', 'blue-automotive':'recruitment', 'blue-buy-back':'recruitment', 'blue-erp-it':'recruitment', 'active-vacancies':'recruitment', 'past-vacancies':'recruitment', 'filled-vacancy':'recruitment', 'time-to-hire':'recruitment', 'submit-vacancy':'recruitment', 'recruitment-import-export':'recruitment', 'recruitment-delete-data':'recruitment' };
         const MAIN_PERMISSIONS = [{ id:'liquor', name:'🍷 Liquor and Beverages' }, { id:'buddy-system', name:'🤝 Buddy System Reward' }, { id:'recruitment', name:'👥 Recruitment' }, { id:'test02', name:'🧪 Test 02' }, { id:'excel', name:'🛠️ Import / Export' }, { id:'backup', name:'💾 Backup & Restore' }, { id:'settings', name:'⚙️ Settings' }];
+        let permissionSelections = {};
         function userHasGroupPermission(user, group) { return user.permissions.includes(group) || Object.keys(PAGE_GROUPS).some(page => PAGE_GROUPS[page] === group && user.permissions.includes(page)); }
         function hasPageAccess(page) { if(page === 'welcome' || currentUser.role === 'Administrator' || currentUser.permissions.includes('all')) return true; const group = PAGE_GROUPS[page]; return currentUser.permissions.includes(page) || (group && (currentUser.permissions.includes(group) || Object.keys(PAGE_GROUPS).some(child => PAGE_GROUPS[child] === group && currentUser.permissions.includes(child)))); }
 
@@ -1685,15 +1695,26 @@
         function openUserModal(id) {
             const users = loadUsers();
             const user = id ? users.find(u => u.id === id) : null;
+            permissionSelections = {};
+            ASSIGNABLE_PAGES.forEach(page => { permissionSelections[page.id] = user?.permissions?.includes('all') || user?.permissions?.includes(page.id) || false; });
             const title = user ? 'Edit User' : 'Create User';
-            let permHtml = `
+            const permHtml = `
                 <div class="form-group">
                     <label>Accessible Pages</label>
-                    <div class="checkbox-group">
-                        ${ASSIGNABLE_PAGES.map(p => {
-                            const checked = user?.permissions?.includes('all') || (user && userHasGroupPermission(user, p.id)) ? 'checked' : '';
-                            return `<label class="checkbox-item"><input type="checkbox" id="perm-${p.id}" ${checked} ${user?.role === 'Administrator' ? 'disabled' : ''}> ${p.name}</label>`;
-                        }).join('')}
+                    <div id="permission-page-1" class="permission-page active">
+                        <p class="permission-page-label">Page 1 of 2: choose the main tabs this user can access.</p>
+                        <div class="checkbox-group permission-main-list">
+                            ${MAIN_PERMISSIONS.map(p => {
+                                const checked = user?.permissions?.includes('all') || (user && userHasGroupPermission(user, p.id)) ? 'checked' : '';
+                                return `<label class="checkbox-item permission-main-item"><span><input type="checkbox" id="main-perm-${p.id}" data-main-permission="${p.id}" ${checked} ${user?.role === 'Administrator' ? 'disabled' : ''}> ${p.name}</span><button type="button" class="btn btn-secondary btn-sm" onclick="showPermissionSubfolders('${p.id}')">Subfolders</button></label>`;
+                            }).join('')}
+                        </div>
+                        <div class="permission-page-nav"><button type="button" class="btn btn-primary" onclick="showPermissionSubfolders()">Next: Subfolders <i class="fa-solid fa-arrow-right"></i></button></div>
+                    </div>
+                    <div id="permission-page-2" class="permission-page">
+                        <p class="permission-page-label">Page 2 of 2: choose subfolders for <strong id="permission-selected-main">the selected main tab</strong>.</p>
+                        <div id="permission-subfolder-list" class="checkbox-group"></div>
+                        <div class="permission-page-nav"><button type="button" class="btn btn-secondary" onclick="showPermissionMainTabs()"><i class="fa-solid fa-arrow-left"></i> Back</button><button type="button" class="btn btn-primary" onclick="showPermissionMainTabs()">Done</button></div>
                     </div>
                     ${user?.role === 'Administrator' ? '<p style="font-size:12px; color:var(--text-light); margin-top:5px;">Administrators automatically have access to all pages.</p>' : ''}
                 </div>
@@ -1707,12 +1728,30 @@
             `;
             const footer = `<button class="btn btn-secondary" onclick="closeModal()">Cancel</button><button class="btn btn-primary" onclick="saveUser('${id||''}')">Save User</button>`;
             openModal(title, body, footer);
+            showPermissionSubfolders();
             toggleRolePermissions(document.getElementById('u-role').value);
         }
 
+        function showPermissionMainTabs() {
+            document.querySelectorAll('#permission-subfolder-list input[type="checkbox"]').forEach(chk => { permissionSelections[chk.id.replace('perm-', '')] = chk.checked; });
+            document.getElementById('permission-page-1').classList.add('active');
+            document.getElementById('permission-page-2').classList.remove('active');
+        }
+
+        function showPermissionSubfolders(mainId) {
+            const selectedMain = mainId || document.querySelector('[data-main-permission]:checked')?.dataset.mainPermission || MAIN_PERMISSIONS[0].id;
+            const main = MAIN_PERMISSIONS.find(permission => permission.id === selectedMain) || MAIN_PERMISSIONS[0];
+            const subfolders = ASSIGNABLE_PAGES.filter(page => PAGE_GROUPS[page.id] === main.id);
+            document.getElementById('permission-selected-main').textContent = main.name.replace(/^\S+\s/, '');
+            document.getElementById('permission-subfolder-list').innerHTML = subfolders.length
+                ? subfolders.map(page => `<label class="checkbox-item"><input type="checkbox" id="perm-${page.id}" ${permissionSelections[page.id] ? 'checked' : ''} onchange="permissionSelections['${page.id}'] = this.checked" ${currentUser?.role === 'Administrator' ? 'disabled' : ''}> ${page.name}</label>`).join('')
+                : '<p style="font-size:13px; color:var(--text-light);">This main tab has no subfolders.</p>';
+            document.getElementById('permission-page-1').classList.remove('active');
+            document.getElementById('permission-page-2').classList.add('active');
+        }
+
         function toggleRolePermissions(role) {
-            ASSIGNABLE_PAGES.forEach(p => {
-                const chk = document.getElementById(`perm-${p.id}`);
+            document.querySelectorAll('[data-main-permission], [id^="perm-"]').forEach(chk => {
                 if (chk) { if (role === 'Administrator') { chk.checked = true; chk.disabled = true; } else { chk.disabled = false; } }
             });
         }
@@ -1727,7 +1766,10 @@
             if(!id && users.find(u => u.username.toLowerCase() === username)) return showToast('Username already exists', 'error');
             let permissions = [];
             if (role === 'Administrator') { permissions = ['all']; } 
-            else { ASSIGNABLE_PAGES.forEach(p => { if (document.getElementById(`perm-${p.id}`).checked) permissions.push(p.id); }); }
+            else {
+                document.querySelectorAll('[data-main-permission]:checked').forEach(chk => permissions.push(chk.dataset.mainPermission));
+                Object.keys(permissionSelections).forEach(pageId => { if (permissionSelections[pageId]) permissions.push(pageId); });
+            }
             if(id) {
                 const idx = users.findIndex(u => u.id === id);
                 users[idx].name = name; users[idx].role = role; users[idx].permissions = permissions;
