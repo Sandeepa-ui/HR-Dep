@@ -94,9 +94,12 @@ create table if not exists buddy_settings (
     updated_at timestamptz not null default now()
 );
 
--- Temporary compatibility store for the current browser application.
--- The frontend can use this while its individual screens are migrated to
--- the normalized tables below.
+-- Compatibility store used by the current browser application.
+-- The users array contains the client-side user records. Each user's
+-- permissions array stores stable page IDs, including main-tab IDs such as
+-- 'liquor', 'buddy-system', and 'recruitment', plus their subfolder IDs.
+-- The User Management screen edits these permissions in two steps without
+-- changing the JSON format, so existing shared state remains compatible.
 create table if not exists shared_app_state (
     id boolean primary key default true check (id),
     users jsonb not null default '[]'::jsonb,
@@ -185,7 +188,21 @@ create index if not exists idx_rewards_buddy on rewards(buddy_id);
 
 insert into office_settings (id) values (true) on conflict (id) do nothing;
 insert into buddy_settings (id) values (true) on conflict (id) do nothing;
-insert into shared_app_state (id) values (true) on conflict (id) do nothing;
+insert into shared_app_state (id, users)
+values (
+    true,
+    '[{"id":"u1","username":"admin","password":"admin123","role":"Administrator","name":"System Admin","permissions":["all"],"status":"active"}]'::jsonb
+)
+on conflict (id) do update
+set users = case
+    when jsonb_typeof(shared_app_state.users) = 'array'
+         and not exists (
+             select 1 from jsonb_array_elements(shared_app_state.users) user_record
+             where user_record->>'username' = 'admin'
+         )
+    then shared_app_state.users || excluded.users
+    else shared_app_state.users
+end;
 
 -- Compatibility policies for the current client-side login implementation.
 -- Replace these with authenticated-user policies before using real passwords.
